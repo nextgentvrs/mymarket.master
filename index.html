@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Painel Mestre — Next Gen TV</title>
+<style>
+:root{--bg:#F4F6FA;--card:#fff;--ink:#0F1B2D;--mut:#5A6B84;--line:#DCE2EC;--ac:#1D5FD1;--acink:#fff;--ok:#157A46;--bad:#B42318;--chip:#E8EDF6;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#0B1220;--card:#131D31;--ink:#E8EEF9;--mut:#9DB0CC;--line:#243452;--ac:#5B9BFF;--acink:#061226;--ok:#4ADE80;--bad:#F87171;--chip:#1B2943;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.4 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.wrap{max-width:980px;margin:0 auto;padding:16px}
+h1{font-size:22px;margin:0}h2{font-size:17px;margin:0 0 14px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px}
+label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:var(--mut)}
+input,select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:0 12px;height:46px;width:100%}
+input[type=color]{padding:4px;height:46px}
+.g{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px}
+@media (max-width:700px){.g{grid-template-columns:1fr}}
+.btn{border:0;border-radius:999px;background:var(--ac);color:var(--acink);font:600 15px inherit;font-family:inherit;min-height:46px;padding:0 22px;cursor:pointer}
+.btn.ghost{background:none;border:1px solid var(--line);color:var(--ink)}.btn.sm{min-height:40px;padding:0 14px;font-size:13px}
+.btn:disabled{opacity:.5;cursor:wait}
+.msg{font-size:14px;margin-top:10px;min-height:20px}.msg.e{color:var(--bad)}.msg.o{color:var(--ok)}
+.m{border-top:1px solid var(--line);padding:14px 0}.m:first-child{border-top:0}
+.mh{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.sw{display:inline-flex;width:40px;height:40px;border-radius:10px;align-items:center;justify-content:center;font-size:22px;margin-right:12px;vertical-align:middle}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--chip);color:var(--mut);margin-left:6px}
+.tag.on{color:var(--ok)}.tag.off{color:var(--bad)}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+.bar select{width:auto;height:40px}
+.meta{font-size:12px;color:var(--mut);word-break:break-all}
+.hide{display:none!important}
+.login{max-width:380px;margin:12vh auto 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div id="vLogin" class="login card">
+<h1 style="margin-bottom:4px">Painel Mestre</h1>
+<div class="meta" style="margin-bottom:16px;word-break:normal">Next Gen TV · acesso restrito</div>
+<label style="margin-bottom:12px">E-mail<input id="le" type="email" autocomplete="username"></label>
+<label style="margin-bottom:16px">Senha<input id="lp" type="password" autocomplete="current-password"></label>
+<button class="btn" id="lb" style="width:100%" type="button">Entrar</button>
+<div class="msg e" id="lm" role="alert"></div>
+</div>
+
+<div id="vApp" class="hide">
+<div class="top"><div><h1>Painel Mestre</h1><div class="meta" id="who"></div></div><button class="btn ghost sm" id="out" type="button">Sair</button></div>
+
+<div class="card"><h2>Criar novo mercado</h2>
+<div class="g">
+<label>Nome do mercado<input id="nm" type="text" placeholder="Mercado São Rafael"></label>
+<label>Código do endereço (sem espaços)<input id="sl" type="text" placeholder="saorafael"></label>
+<label>Ícone (um emoji ou letra)<input id="ic" type="text" maxlength="2" value="🛒"></label>
+</div>
+<div class="g">
+<label>Cor principal<input id="c1" type="color" value="#1F7A4D"></label>
+<label>Cor de destaque (promoções)<input id="c2" type="color" value="#C2410C"></label>
+<label>Cor do texto sobre a principal<input id="c3" type="color" value="#FFFFFF"></label>
+</div>
+<div class="g">
+<label>Vagas de foto<select id="pf"><option value="10">10 fotos</option><option value="20">20 fotos</option><option value="30">30 fotos</option><option value="50">50 fotos</option></select></label>
+<label>Campanhas por mês<select id="pc"><option value="1">1 campanha</option><option value="2">2 campanhas</option><option value="3">3 campanhas</option></select></label>
+<label>Fonte (letra) do app<select id="ft"><option value="system-ui">Padrão do aparelho</option><option value="Georgia,serif">Serifada (Georgia)</option><option value="'Trebuchet MS',sans-serif">Arredondada (Trebuchet)</option></select></label>
+</div>
+<div class="g" style="grid-template-columns:1fr 1fr">
+<label>E-mail do dono (login do painel)<input id="oe" type="email" placeholder="dono@mercado.com.br"></label>
+<label>Senha provisória (mín. 6 caracteres)<input id="op" type="text" autocomplete="off"></label>
+</div>
+<button class="btn" id="cr" type="button">Criar mercado e login do dono</button>
+<div class="msg" id="cm" role="status"></div>
+</div>
+
+<div class="card"><h2>Mercados (<span id="cnt">0</span>)</h2>
+<label style="margin-bottom:12px">Endereço do app do cliente (para gerar os links)<input id="base" type="url" placeholder="https://seuusuario.github.io/seurepo/app.html"></label>
+<div id="list"></div><div class="msg e" id="lerr"></div></div>
+<div class="meta" id="uid"></div>
+</div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut, createUserWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/13.2.0/firebase-auth.js";
+import { getFirestore, collection, doc, getDoc, getDocs, updateDoc, writeBatch, serverTimestamp } from "https://www.gstatic.com/firebasejs/13.2.0/firebase-firestore.js";
+
+const cfg={apiKey:"AIzaSyC8bpWFnRiL-PLc5ky63171TfaId0Ygb3s",authDomain:"my-market-9984a.firebaseapp.com",projectId:"my-market-9984a",storageBucket:"my-market-9984a.firebasestorage.app",messagingSenderId:"654372852018",appId:"1:654372852018:web:7a7e85ce30b02cd8ee872b"};
+const app=initializeApp(cfg),auth=getAuth(app),db=getFirestore(app);
+const $=i=>document.getElementById(i);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const slugify=s=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+const errTxt=e=>({"auth/invalid-credential":"E-mail ou senha incorretos.","auth/invalid-email":"E-mail inválido.","auth/email-already-in-use":"Esse e-mail já tem um login.","auth/weak-password":"Senha fraca: use pelo menos 6 caracteres.","auth/too-many-requests":"Muitas tentativas. Aguarde um pouco.","permission-denied":"Sem permissão. Confira as regras do banco e o UID do mestre."}[e.code]||("Erro: "+(e.code||e.message)));
+try{$("base").value=localStorage.getItem("ng_base")||""}catch(e){}
+$("base").oninput=()=>{try{localStorage.setItem("ng_base",$("base").value)}catch(e){}renderList()};
+$("nm").oninput=()=>{$("sl").value=slugify($("nm").value)};
+
+$("lb").onclick=async()=>{$("lm").textContent="";try{await signInWithEmailAndPassword(auth,$("le").value.trim(),$("lp").value)}catch(e){$("lm").textContent=errTxt(e)}};
+$("lp").onkeydown=e=>{if(e.key==="Enter")$("lb").click()};
+$("out").onclick=()=>signOut(auth);
+
+let markets=[];
+onAuthStateChanged(auth,async u=>{
+  $("vLogin").classList.toggle("hide",!!u);$("vApp").classList.toggle("hide",!u);
+  if(!u)return;
+  $("who").textContent=u.email;$("uid").textContent="Seu UID: "+u.uid;
+  await load();
+});
+async function load(){
+  $("lerr").textContent="";
+  try{const s=await getDocs(collection(db,"markets"));markets=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(a.name||"").localeCompare(b.name||""));renderList()}
+  catch(e){markets=[];renderList();$("lerr").textContent=errTxt(e)+" (UID acima)"}
+}
+function link(m){const b=$("base").value.trim();return b?b+(b.includes("?")?"&":"?")+"m="+m.id:"(informe o endereço do app acima)"}
+function renderList(){
+  $("cnt").textContent=markets.length;
+  $("list").innerHTML=markets.length?markets.map(m=>{const c=m.colors||{},p=m.plan||{};
+  return '<div class="m"><div class="mh"><div><span class="sw" style="background:'+esc(c.primary||"#888")+';color:'+esc(c.onPrimary||"#fff")+'">'+esc(m.icon||"🛒")+'</span><strong>'+esc(m.name)+'</strong><span class="tag '+(m.active?'on':'off')+'">'+(m.active?'ativo':'desativado')+'</span><div class="meta">'+esc(m.ownerEmail||"")+' · código: '+esc(m.id)+'</div></div><div class="bar" style="margin:0"><button class="btn ghost sm" data-t="'+m.id+'">'+(m.active?'Desativar':'Ativar')+'</button><button class="btn ghost sm" data-r="'+esc(m.ownerEmail||"")+'">Nova senha do dono</button><button class="btn ghost sm" data-cp="'+m.id+'">Copiar link do app</button></div></div>'
+  +'<div class="bar"><span class="meta">Plano:</span><select data-pf="'+m.id+'" aria-label="Vagas de foto">'+[10,20,30,50].map(n=>'<option value="'+n+'"'+(p.photos==n?' selected':'')+'>'+n+' fotos</option>').join("")+'</select><select data-pc="'+m.id+'" aria-label="Campanhas por mês">'+[1,2,3].map(n=>'<option value="'+n+'"'+(p.campaigns==n?' selected':'')+'>'+n+' campanha(s)/mês</option>').join("")+'</select></div><div class="meta" style="margin-top:6px">'+esc(link(m))+'</div></div>'}).join(""):'<div class="meta">Nenhum mercado criado ainda.</div>'}
+
+function say(t,k){const m=$("cm");m.textContent=t;m.className="msg "+(k||"")}
+$("cr").onclick=async()=>{
+  const name=$("nm").value.trim(),id=slugify($("sl").value),oe=$("oe").value.trim(),op=$("op").value;
+  if(!name||!id){say("Preencha o nome e o código do mercado.","e");return}
+  if(!oe||op.length<6){say("Informe o e-mail do dono e uma senha com 6 ou mais caracteres.","e");return}
+  $("cr").disabled=true;say("Criando…");
+  let sec=null;
+  try{
+    if((await getDoc(doc(db,"markets",id))).exists()){say("Já existe um mercado com esse código.","e");return}
+    sec=initializeApp(cfg,"sec"+Date.now());const sa=getAuth(sec);
+    const cred=await createUserWithEmailAndPassword(sa,oe,op);const uid=cred.user.uid;await signOut(sa);
+    const b=writeBatch(db);
+    b.set(doc(db,"markets",id),{name,icon:$("ic").value||"🛒",active:true,ownerUid:uid,ownerEmail:oe,
+      colors:{primary:$("c1").value,accent:$("c2").value,onPrimary:$("c3").value},font:$("ft").value,
+      plan:{photos:+$("pf").value,campaigns:+$("pc").value},createdAt:serverTimestamp()});
+    b.set(doc(db,"users",uid),{role:"owner",marketId:id,email:oe});
+    await b.commit();
+    say("Mercado criado! Login do dono: "+oe,"o");
+    ["nm","sl","oe","op"].forEach(i=>$(i).value="");await load();
+  }catch(e){say(errTxt(e),"e")}
+  finally{$("cr").disabled=false}
+};
+$("list").addEventListener("click",async e=>{
+  const t=e.target.closest("button");if(!t)return;const d=t.dataset;
+  try{
+    if(d.t){const m=markets.find(x=>x.id===d.t);await updateDoc(doc(db,"markets",d.t),{active:!m.active});await load()}
+    else if(d.r){await sendPasswordResetEmail(auth,d.r);alert("E-mail de nova senha enviado para "+d.r)}
+    else if(d.cp){const m=markets.find(x=>x.id===d.cp);await navigator.clipboard.writeText(link(m));t.textContent="Copiado!"}
+  }catch(er){$("lerr").textContent=errTxt(er)}
+});
+$("list").addEventListener("change",async e=>{
+  const s=e.target,d=s.dataset;if(!d.pf&&!d.pc)return;
+  try{if(d.pf)await updateDoc(doc(db,"markets",d.pf),{"plan.photos":+s.value});else await updateDoc(doc(db,"markets",d.pc),{"plan.campaigns":+s.value});await load()}
+  catch(er){$("lerr").textContent=errTxt(er)}
+});
+</script>
+</body>
+</html>
